@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Task.io</title>
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+  <!-- Google Fonts Roboto -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+  />
+  <!-- MDB -->
+  <link rel="stylesheet" href="MDB5/css/mdb.min.css" />
+
+  <style>
+    body {
+      height: 100vh;
+    }
+    .user{
+      float: right;
+      display: flex;
+      flex-direction: column;
+      font-size: 16px;
+      margin-right: 20px;
+    }
+  </style>
+  <head> </head>
+  <body>
+    <div class="user">
+      <div class="user-info" style="padding-bottom: 5px; padding-top: 10px;">
+      <i class="fas fa-user-large"></i>
+      <span id="user-email"></span>
+      </div>
+      <button type="button" class="btn btn-danger" onclick="signOut()">Sign Out</button>
+    </div>
+    </div>
+    <section class="vh-100" style="background-color: #eee">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-md-12 col-xl-10">
+            <div class="card">
+              <div class="card-header p-3">
+                <ul class="nav nav-pills mb-3" id="pills-tab2" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <!-- Task List -->
+                    <button
+                      class="nav-link active"
+                      id="pills-home-tab2"
+                      data-mdb-toggle="pill"
+                      data-mdb-target="#pills-tasklist"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-home"
+                      aria-selected="true"
+                    >
+                    <h7 class="mb-0">
+                      <i class="fas fa-tasks me-2"></i>
+                      Task List
+                    </h7>
+                    </button>
+                    <!-- Task List -->
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <!-- My Tasks -->
+                    <button
+                      class="nav-link"
+                      id="pills-profile-tab2"
+                      data-mdb-toggle="pill"
+                      data-mdb-target="#pills-mytasks"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-profile"
+                      aria-selected="false"
+                    >
+                    <h7 class="mb-0">
+                      <i class="fas fa-user-check" style="margin-right: 10px;"></i>
+                      My Tasks
+                    </h7>
+                    </button>
+                    <!-- My Tasks -->
+                  </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent2">
+                  <div
+                    class="tab-pane fade show active"
+                    id="pills-tasklist"
+                    role="tabpanel"
+                    aria-labelledby="pills-home-tab2"
+                  >
+                  <div
+                  class="card-body"
+                  data-mdb-perfect-scrollbar="true"
+                  style="position: relative; height: 400px"
+                >
+                <div style="height:378px; overflow-x:auto;">
+                  <!-- Task List -->
+                  <table class="table mb-0">
+                    <thead>
+                      <tr>
+                        <th scope="col">Task name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Assigned User</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                  <!-- Task List -->
+                </div>
+                </div>
+                <div class="card-footer text-end p-3">
+                  <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#createTaskModal" style="margin-right:40px">
+                    Create Task
+                  </button>
+                </div>
+                <div class="chart-wrapper mt-4">
+                  <div class="chart-container" style="max-height:270px !important; max-width:270px !important; margin: auto;">
+                    <canvas id="pieChart" ></canvas>
+                  </div>
+                </div>
+                <!-- Modal Create Task-->
+                <div
+                  class="modal fade"
+                  id="createTaskModal"
+                  tabindex="-1"
+                  aria-labelledby="createTaskModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content" style="margin-top: 200px;">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="createTaskModalLabel">
+                          Create Task
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-mdb-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+                          <div class="form-outline" style="margin-bottom: 20px;">
+                            <input type="text" id="taskName" class="form-control" />
+                            <label class="form-label" for="typeText">Task Name</label>
+                          </div>
+                          <div class="form-outline" style="margin-bottom: 20px;">
+                            <input type="text" id="createDescription" class="form-control" />
+                            <label class="form-label" for="typeText">Description</label>
+                          </div>
+                          <div class="Btn-group" style="display: flex; flex-direction: row;">
+                            <div class="dropdown" style="padding-right: 25px;">
+                              <button
+                                class="btn btn-info dropdown-toggle"
+                                type="button"
+                                id="dropdownMenuButtonStatus"
+                                data-mdb-toggle="dropdown"
+                                aria-expanded="false"
+                                onclick="updateStatus()"
+                              >
+                                Status
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" id="notStartedStatus" >Not started</a></li>
+                                <li><a class="dropdown-item" id="inProgressStatus" >In progress</a></li>
+                                <li><a class="dropdown-item" id="completedStatus" >Completed</a></li>
+                              </ul>
+                            </div>
+                            <div class="dropdown">
+                              <button
+                                class="btn btn-info dropdown-toggle"
+                                type="button"
+                                id="dropdownMenuButtonUsers"
+                                data-mdb-toggle="dropdown"
+                                aria-expanded="false"
+                                onclick="populateUserDropdown()"
+                              >
+                                Assigned User ID
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="userListCreate">
+                              </ul>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-mdb-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="createTask()">
+                          Create Task
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="pills-mytasks"
+                    role="tabpanel"
+                    aria-labelledby="pills-profile-tab2"
+                  >
+                  <div style="height:377px; overflow-x:auto;">
+                    <!-- My Tasks List -->
+                    <table class="table mb-0">
+                      <thead>
+                        <tr>
+                          <th scope="col">Task name</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Status</th>
+                          <th scope="col">Assigned User</th>
+                        </tr>
+                      </thead>
+                      <tbody id = "userTasksTableBody">
+                        <!-- Data to be inserted -->
+                      </tbody>
+                    </table>
+                    <!-- My Tasks List -->
+                  </div>
+                  </div>
+                </div>
+              </div>
+                  <!-- Modal Edit Task-->
+                <div
+                  class="modal fade"
+                  id="editTaskModal"
+                  tabindex="-1"
+                  aria-labelledby="editTaskModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content" style="margin-top: 200px;">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="editTaskModalLabel">
+                          Edit Task
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-mdb-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+                          <div class="form-outline" style="margin-bottom: 20px;">
+                            <input type="text" id="taskNameEdit" class="form-control" />
+                            <label class="form-label" for="typeText">Task Name</label>
+                          </div>
+                          <div class="form-outline" style="margin-bottom: 20px;">
+                            <input type="text" id="descriptionEdit" class="form-control" />
+                            <label class="form-label" for="typeText">Description</label>
+                          </div>
+                          <div class="Btn-group" style="display: flex; flex-direction: row;">
+                            <div class="dropdown" style="padding-right: 25px;">
+                              <button
+                                class="btn btn-info dropdown-toggle"
+                                type="button"
+                                id="dropdownEditMenuButtonStatus"
+                                data-mdb-toggle="dropdown"
+                                aria-expanded="false"
+                                onclick="updateEditStatus()"
+                              >
+                                Status
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" id="notStartedStatus" >Not started</a></li>
+                                <li><a class="dropdown-item" id="inProgressStatus" >In progress</a></li>
+                                <li><a class="dropdown-item" id="completedStatus" >Completed</a></li>
+                              </ul>
+                            </div>
+                            <div class="dropdown">
+                              <button
+                                class="btn btn-info dropdown-toggle"
+                                type="button"
+                                id="dropdownMenuEditButtonUsers"
+                                data-mdb-toggle="dropdown"
+                                aria-expanded="false"
+                                onclick="populateEditUserDropdown()"
+                              >
+                                Assigned User ID
+                              </button>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="editUserList">
+                              </ul>
+                            </div>
+                          </div>
+                          <!-- Hidden input field to store the document ID -->
+                            <input type="hidden" id="editTaskDocId" value="">
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-mdb-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <!-- Add an ID attribute to the Edit button to easily target it -->
+                        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#editTaskModal" id="editModalBtn">
+                          Edit
+                        </button>                     
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+    <!-- MDB5 -->
+    <script type="text/javascript" src="MDB5/js/mdb.min.js"></script>
+    <script type="module" src="acquisitions.js"></script>
+    <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabel"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js"></script>
+    <!-- Custom script -->
+    <script src="main.js"></script>
+  </body>
+</html>
