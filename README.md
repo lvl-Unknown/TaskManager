@@ -2,5 +2,5 @@
 A web-based firebase project management application that allows users to create, view, and edit tasks, assign tasks to team members, and track the progress of tasks.
 
 ## Demo
-![demo1](https://github.com/lvl-Unknown/TaskManager/blob/main/demo%20images/demo1.png)
+![demo1](https://github.com/lvl-Unknown/TaskManager/blob/main/demo%20images/demo.png)
 ![demo2](https://github.com/lvl-Unknown/TaskManager/blob/main/demo%20images/demo2.png)  
